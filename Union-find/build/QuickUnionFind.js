@@ -49,6 +49,16 @@ class QuickUnionFind {
     printUnions() {
         console.log(this.unions);
     }
+    connected(p, q) {
+        try {
+            this.throwIfIndexOutOfBounds(p, q);
+            return this.find(p, q);
+        }
+        catch (err) {
+            console.error(err.message);
+            return false;
+        }
+    }
     throwIfIndexOutOfBounds(p, q) {
         if (p < 0 || p >= this.N || q < 0 || q >= this.N)
             throw new Error(`Index pair (${p}, ${q}) is out of bounds`);
