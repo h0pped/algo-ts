@@ -18,19 +18,34 @@ const binarySearch = (nums: number[], target: number) => {
 }
 
 const threesum = (nums: number[]): number[][] => {
-    const sorted = nums.sort((a, b) => a - b);
+    const results: number[][] = [];
 
+    if (nums.length < 3) return results
 
-    const result: number[][] = [];
-    for (let i = 0; i < sorted.length; i++) {
-        for (let j = i + 1; j < sorted.length; j++) {
-            const res = binarySearch(sorted, -(sorted[i] + sorted[j]));
-            if (res !== -1) {
-                result.push([sorted[i], sorted[j], sorted[res]])
+    nums = nums.sort((a, b) => a - b)
+
+    for (let i = 0; i < nums.length; i++) {
+        if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+        let left = i + 1, right = nums.length - 1;
+        while (left < right) {
+            const threesum = nums[i] + nums[left] + nums[right]
+
+            if (threesum > 0) {
+                right -= 1
+            }
+            else if (threesum < 0) {
+                left += 1
+            }
+            else if (threesum === 0) {
+                results.push([nums[i], nums[left], nums[right]])
+                left += 1
+                while (nums[left] === nums[left - 1] && left < right) left += 1
             }
         }
     }
-    return result
+    return results
+
 }
 
 const arr = [30, -40, -20, -10, 40, 0, 10, 5];
