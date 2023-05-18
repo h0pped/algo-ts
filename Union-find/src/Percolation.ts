@@ -58,6 +58,7 @@ export default class Percolation {
         }
 
 
+
     }
 
     public isOpen(row: number, col: number) {
