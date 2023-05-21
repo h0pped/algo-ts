@@ -62,6 +62,33 @@ const shuffling = (arr: number[]): number[] => {
     }
     return res;
 }
+const mergeSort = (arr: number[]) => {
+    const merge = (a: number[], lo: number, mid: number, hi: number) => {
+        const aux = a.slice();
+
+        let i = lo, j = mid + 1;
+
+        for (let k = lo; k <= hi; k++) {
+            if (i > mid) arr[k] = aux[j++]
+            else if (j > hi) arr[k] = aux[i++]
+            else if (aux[j] < aux[i]) arr[k] = aux[j++]
+            else arr[k] = aux[i++]
+        }
+    }
+
+    const sort = (a: number[], lo: number, hi: number) => {
+        if (hi <= lo) return
+        const mid = Math.floor(lo + (hi - lo) / 2);
+
+        sort(a, lo, mid)
+        sort(a, mid + 1, hi)
+        merge(a, lo, mid, hi)
+    }
+
+    sort(arr, 0, arr.length - 1)
+    return arr
+}
+
 
 const convexHull = (points: [number, number][]) => {
 
@@ -69,9 +96,25 @@ const convexHull = (points: [number, number][]) => {
 
 }
 
+interface Point {
+    x: number,
+    y: number
+}
+
+const ccw = (a: Point, b: Point, c: Point): number => {
+    const area2 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+
+    if (area2 < 0) return -1
+    if (area2 > 0) return 1
+    return 0
+}
+
+const hull = []
+
 const arr = Array(10).fill(0).map((_, i) => i + 1)
 
 
 console.log(selectionSort(shuffling(arr)))
 console.log(insertionSort(shuffling(arr)))
 console.log(shellSort(shuffling(arr)))
+console.log(mergeSort(shuffling(arr)))
